@@ -50,6 +50,7 @@ export default {
   ** Nuxt.js modules
   */
   modules: [
+    'cookie-universal-nuxt'
   ],
   /*
   ** Build configuration

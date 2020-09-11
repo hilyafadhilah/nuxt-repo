@@ -3,10 +3,10 @@ export const state = () => ({
 })
 
 export const mutations = {
-  add(state, text) {
+  add(state, { text, done }) {
     state.list.push({
       text,
-      done: false
+      done
     })
   },
   remove(state, todo) {
