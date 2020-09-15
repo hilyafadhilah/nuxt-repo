@@ -7,7 +7,7 @@
       <transition-group name="list" tag="div" @beforeLeave="beforeLeave">
         <div v-for="todo in todos" :key="todo.id" class="todo">
           <div class="left">
-            <input :checked="todo.done" @change="toggle(todo)" type="checkbox" />
+            <button :class="{ done: todo.done }" @click="toggle(todo)"></button>
           </div>
           <div class="text">
             <span :class="{ done: todo.done }">{{ todo.text }}</span>
@@ -80,9 +80,6 @@
 </script>
 
 <style>
-  .done {
-    text-decoration: line-through;
-  }
   .todos {
     padding: 0;
     width: 100%;
@@ -99,13 +96,42 @@
   .todos .todo .left {
     flex: 0 0 auto;
   }
-  .todos .todo .left input {
-    margin: 0 10px;
+  .todos .todo .left button {
+    margin: 0 5px;
+    border: none;
+    padding: 0;
+    width: 27px;
+    height: 27px;
+    background-color: #ffffff;
+  }
+  .todos .todo .left button::after {
+    content: '\2800';
+  }
+  .todos .todo .left button:hover {
+    background-color: #dfe6e9;
+  }
+  .todos .todo .left button.done {
+    background-color: #2ecc71;
+    color: #ffffff;
+  }
+  .todos .todo .left button.done::after {
+    content: '\2713';
+  }
+  .todos .todo .left button.done:hover {
+    transition: none;
+    background-color: #27ae60;
   }
   .todos .todo .text {
     flex-grow: 1;
     margin: 0 10px;
     word-break: break-all;
+  }
+  .todos .todo .text span {
+    transition: all 0.25s ease-in;
+  }
+  .todos .todo .text .done {
+    text-decoration: line-through;
+    opacity: 0.4;
   }
   .todos .todo .right {
     flex: 0 0 100px;
