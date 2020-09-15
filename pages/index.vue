@@ -31,14 +31,14 @@
 
         // reset cookie expire to one week everytime page is visited
 
-        let expires = new Date()
+        const expires = new Date()
         expires.setDate(expires.getDate() + 7)
 
         app.$cookies.set('todos.list', todosListCookie, {
           expires
         })
 
-        for(let i in todosListCookie) {
+        for(const i in todosListCookie) {
           store.commit('todos/add', todosListCookie[i])
         }
       }
@@ -63,7 +63,7 @@
         this.saveTodosCookie()
       },
       saveTodosCookie() {
-        let expires = new Date()
+        const expires = new Date()
         expires.setDate(expires.getDate() + 7)
 
         this.$cookies.set('todos.list', this.$store.state.todos.list, {
