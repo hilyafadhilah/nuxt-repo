@@ -1,21 +1,23 @@
 <template>
   <div class="container">
-    <ul class="todos">
-      <li class="input">
+    <div class="todos">
+      <div class="input">
         <input @keyup.enter="addTodo" placeholder="What needs to be done?" />
-      </li>
-      <li v-for="todo in todos" :key="todo.id">
-        <div class="left">
-          <input :checked="todo.done" @change="toggle(todo)" type="checkbox" />
+      </div>
+      <transition-group name="list" tag="div" @beforeLeave="beforeLeave">
+        <div v-for="todo in todos" :key="todo" class="todo">
+          <div class="left">
+            <input :checked="todo.done" @change="toggle(todo)" type="checkbox" />
+          </div>
+          <div class="text">
+            <span :class="{ done: todo.done }">{{ todo.text }}</span>
+          </div>
+          <div class="right">
+            <button @click="removeTodo(todo)">remove</button>
+          </div>
         </div>
-        <div class="text">
-          <span :class="{ done: todo.done }">{{ todo.text }}</span>
-        </div>
-        <div class="right">
-          <button @click="removeTodo(todo)">remove</button>
-        </div>
-      </li>
-    </ul>
+      </transition-group>
+    </div>
   </div>
 </template>
 
@@ -67,6 +69,11 @@
         this.$cookies.set('todos.list', this.$store.state.todos.list, {
           expires
         })
+      },
+      beforeLeave(el) {
+        const { width } = window.getComputedStyle(el)
+        el.style.width = width
+        el.style.position = 'absolute'
       }
     }
   }
@@ -76,35 +83,34 @@
   .done {
     text-decoration: line-through;
   }
-  ul.todos {
+  .todos {
     padding: 0;
     width: 100%;
   }
-  ul.todos li {
-    list-style: none;
+  .todos .todo {
     display: flex;
     align-items: center;
     margin: 15px 0;
     flex-wrap: nowrap;
   }
-  ul.todos li.input input {
+  .todos .input input {
     width: 100%;
   }
-  ul.todos li .left {
+  .todos .todo .left {
     flex: 0 0 auto;
   }
-  ul.todos li .left input {
+  .todos .todo .left input {
     margin: 0 10px;
   }
-  ul.todos li .text {
+  .todos .todo .text {
     flex-grow: 1;
     margin: 0 10px;
     word-break: break-all;
   }
-  ul.todos li .right {
+  .todos .todo .right {
     flex: 0 0 100px;
   }
-  ul.todos li .right button {
+  .todos .todo .right button {
     width: 100%;
     border: none;
     background-color: #e74c3c;
@@ -112,7 +118,14 @@
     text-decoration: none;
     display: inline-block;
   }
-  ul.todos li .right button:hover {
+  .todos .todo .right button:hover {
     background-color: #c0392b;
+  }
+  .list-enter-active, .list-leave-active, .list-move {
+    transition: all 0.25s ease-in-out;
+  }
+  .list-enter, .list-leave-to {
+    opacity: 0;
+    transform: translateY(-10px);
   }
 </style>

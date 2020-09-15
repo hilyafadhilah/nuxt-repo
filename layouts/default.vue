@@ -14,34 +14,6 @@
 </template>
 
 <style>
-html {
-  font-family:
-    'Manrope',
-    -apple-system,
-    BlinkMacSystemFont,
-    'Segoe UI',
-    Roboto,
-    'Helvetica Neue',
-    Arial,
-    sans-serif;
-  font-size: 21px;
-  word-spacing: 1px;
-  -ms-text-size-adjust: 100%;
-  -webkit-text-size-adjust: 100%;
-  -moz-osx-font-smoothing: grayscale;
-  -webkit-font-smoothing: antialiased;
-  box-sizing: border-box;
-  background-color: #222f3e;
-  color: #ffffff;
-}
-
-*,
-*::before,
-*::after {
-  box-sizing: border-box;
-  margin: 0;
-}
-
 body {
   display: flex;
   justify-content: center;
@@ -81,20 +53,5 @@ body > div {
 
 .content {
   margin-top: 50px;
-}
-
-input, button {
-  padding: 10px;
-  line-height: 1em;
-  border-radius: 5px;
-  border: 1px solid #ffffff;
-}
-
-input:active, input:focus, button:active, button:focus {
-  outline: none;
-}
-
-button {
-  cursor: pointer;
 }
 </style>
