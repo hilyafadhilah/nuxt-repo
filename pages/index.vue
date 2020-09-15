@@ -5,7 +5,7 @@
         <input @keyup.enter="addTodo" placeholder="What needs to be done?" />
       </div>
       <transition-group name="list" tag="div" @beforeLeave="beforeLeave">
-        <div v-for="todo in todos" :key="todo" class="todo">
+        <div v-for="todo in todos" :key="todo.id" class="todo">
           <div class="left">
             <input :checked="todo.done" @change="toggle(todo)" type="checkbox" />
           </div>

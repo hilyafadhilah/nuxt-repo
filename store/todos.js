@@ -6,7 +6,8 @@ export const mutations = {
   add(state, { text, done }) {
     state.list.push({
       text,
-      done
+      done,
+      id: new Date().toISOString() + state.list.length
     })
   },
   remove(state, todo) {
