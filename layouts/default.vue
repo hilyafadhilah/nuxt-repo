@@ -10,8 +10,32 @@
     <div class="content">
       <Nuxt />
     </div>
+    <transition name="snackbar">
+      <div class="snackbar" v-if="snackbar">
+        <div class="text">This website uses cookies.</div>
+        <div class="action" @click="snackbar = false; cookieAgree()">Agree</div>
+      </div>
+    </transition>
   </div>
 </template>
+
+<script>
+export default {
+  data: () => ({
+    snackbar: false
+  }),
+  mounted() {
+    this.snackbar = !this.$cookies.get('cookies.agree')
+  },
+  methods: {
+    cookieAgree() {
+      const expires = new Date()
+      expires.setMonth(expires.getMonth() + 1)
+      this.$cookies.set('cookies.agree', true, { expires })
+    }
+  }
+}
+</script>
 
 <style>
 body {
@@ -53,5 +77,35 @@ body > div {
 
 .content {
   margin-top: 50px;
+}
+
+.snackbar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100vw;
+  background-color: #34495e;
+  padding: 15px 30px;
+  display: flex;
+  transform-origin: bottom;
+  transition: all 0.3s ease-in-out;
+}
+
+.snackbar .text {
+  flex-grow: 1;
+}
+
+.snackbar .action {
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.snackbar .action:hover {
+  color: #f1c40f;
+}
+
+.snackbar-enter-active, .snackbar-leave-active {
+  transform: translateY(10px);
+  opacity: 0;
 }
 </style>
