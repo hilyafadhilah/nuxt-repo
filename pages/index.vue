@@ -35,6 +35,7 @@
         expires.setDate(expires.getDate() + 7)
 
         app.$cookies.set('todos.list', todosListCookie, {
+          sameSite: true,
           expires
         })
 
@@ -67,6 +68,7 @@
         expires.setDate(expires.getDate() + 7)
 
         this.$cookies.set('todos.list', this.$store.state.todos.list, {
+          sameSite: true,
           expires
         })
       },

@@ -31,7 +31,10 @@ export default {
     cookieAgree() {
       const expires = new Date()
       expires.setMonth(expires.getMonth() + 1)
-      this.$cookies.set('cookies.agree', true, { expires })
+      this.$cookies.set('cookies.agree', true, {
+        sameSite: true,
+        expires
+      })
     }
   }
 }
