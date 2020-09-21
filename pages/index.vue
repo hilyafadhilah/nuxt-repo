@@ -27,20 +27,22 @@
   export default {
     middleware({ app, store }) {
       if(store.state.todos.list.length === 0) {
-        const todosListCookie = app.$cookies.get('todos.list') ?? []
+        const todosListCookie = app.$cookies.get('todos.list')
 
-        // reset cookie expire to one week everytime page is visited
+        if(todosListCookie) {
+          // reset cookie expire to one week everytime page is visited
 
-        const expires = new Date()
-        expires.setDate(expires.getDate() + 7)
+          const expires = new Date()
+          expires.setDate(expires.getDate() + 7)
 
-        app.$cookies.set('todos.list', todosListCookie, {
-          sameSite: true,
-          expires
-        })
+          app.$cookies.set('todos.list', todosListCookie, {
+            sameSite: true,
+            expires
+          })
 
-        for(const i in todosListCookie) {
-          store.commit('todos/add', todosListCookie[i])
+          for(const i in todosListCookie) {
+            store.commit('todos/add', todosListCookie[i])
+          }
         }
       }
     },
