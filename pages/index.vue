@@ -6,7 +6,7 @@
 </template>
 
 <script>
-  import { mapMutations } from 'vuex'
+  import { mapActions } from 'vuex'
   import TodoInput from '../components/todos/TodoInput'
   import TodoList from '../components/todos/TodoList'
 
@@ -15,26 +15,8 @@
       TodoInput,
       TodoList
     },
-    middleware({ app, store }) {
-      if(store.state.todos.list.length === 0) {
-        const todosListCookie = app.$cookies.get('todos.list')
-
-        if(todosListCookie) {
-          // reset cookie expire to one week everytime page is visited
-
-          const expires = new Date()
-          expires.setDate(expires.getDate() + 7)
-
-          app.$cookies.set('todos.list', todosListCookie, {
-            sameSite: true,
-            expires
-          })
-
-          for(const i in todosListCookie) {
-            store.commit('todos/add', todosListCookie[i])
-          }
-        }
-      }
+    middleware({ store }) {
+      store.dispatch('todos/load')
     },
     computed: {
       todos() {
@@ -43,26 +25,12 @@
     },
     methods: {
       addTodo(text) {
-        this.$store.commit('todos/add', { text })
-        this.saveTodosCookie()
+        this.$store.dispatch('todos/insert', { text })
       },
-      toggleTodo(todo) {
-        this.$store.commit('todos/toggle', todo)
-        this.saveTodosCookie()
-      },
-      removeTodo(todo) {
-        this.$store.commit('todos/remove', todo)
-        this.saveTodosCookie()
-      },
-      saveTodosCookie() {
-        const expires = new Date()
-        expires.setDate(expires.getDate() + 7)
-
-        this.$cookies.set('todos.list', this.$store.state.todos.list, {
-          sameSite: true,
-          expires
-        })
-      }
+      ...mapActions({
+        removeTodo: 'todos/delete',
+        toggleTodo: 'todos/toggleDone'
+      })
     }
   }
 </script>
